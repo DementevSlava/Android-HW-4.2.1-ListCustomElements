@@ -1,15 +1,14 @@
 package com.dementev.listcustomelements;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -25,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private ItemsDataAdapter adapter;
     // Список картинок, которые мы будем брать для нашего списка
     private List<Drawable> images = new ArrayList<>();
+    private List<String> word = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         fillImages();
+        fillWord();
 
         // При тапе по кнопке добавим один новый элемент списка
         fab.setOnClickListener(new View.OnClickListener() {
@@ -64,15 +65,26 @@ public class MainActivity extends AppCompatActivity {
                 android.R.drawable.ic_menu_call));
     }
 
-    // Создадим ну почти случайные данные для нашего списка.
-    // random.nextInt(граница_последнего_элемента)
-    // Для каждого элемента мы возьмем 1 случайную картинку
-    // из 5, которые мы сделали вначале.
+    private void fillWord() {
+        word.add(getString(R.string.title1));
+        word.add(getString(R.string.title2));
+        word.add(getString(R.string.title3));
+        word.add(getString(R.string.title4));
+        word.add(getString(R.string.title5));
+        word.add(getString(R.string.title6));
+        word.add(getString(R.string.title7));
+    }
+
     private void generateRandomItemData() {
-        adapter.addItem(new ItemData(
-                images.get(random.nextInt(images.size())),
-                "Hello" + adapter.getCount(),
-                "It\'s me",
-                random.nextBoolean()));
+        if (adapter.getCount() < 7 ) {
+            adapter.addItem(new ItemData(
+                    images.get(random.nextInt(images.size())),
+                    word.get(adapter.getCount()),
+                    "Разделы",
+                    random.nextBoolean()));
+        } else {
+            Toast.makeText(this, "Больше нет записей", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
